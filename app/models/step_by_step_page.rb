@@ -52,10 +52,14 @@ class StepByStepPage < ApplicationRecord
   def mark_as_unpublished
     update_attribute(:published_at, nil)
     update_attribute(:draft_updated_at, nil)
+  end
 
   def mark_as_scheduled
     update_attribute(:status, "scheduled")
   end
+
+  def mark_as_unscheduled
+    update_attribute(:status, "draft")
   end
 
   def self.validate_redirect(redirect_url)
