@@ -70,14 +70,6 @@ class StepByStepPage < ApplicationRecord
     redirect_url =~ regex
   end
 
-  def status
-    return "scheduled" if scheduled_for_publishing?
-    return "draft" if has_draft?
-    return "published" if has_been_published?
-
-    "draft"
-  end
-
   def unpublished_changes?
     has_draft? && has_been_published?
   end
