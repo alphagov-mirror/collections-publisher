@@ -201,4 +201,8 @@ module StepNavSteps
       expect(page).to have_content message
     end
   end
+
+  def then_I_see_the_new_step_by_step_page
+    expect(page).to have_content("How to bake a cake")
+  end
 end
