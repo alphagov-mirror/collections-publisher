@@ -26,6 +26,10 @@ class StepByStepPage < ApplicationRecord
 
   scope :by_title, -> { order(:title) }
 
+  def approved_2i?
+    status.approved_2i?
+  end
+
   def has_been_published?
     published_at.present?
   end
@@ -49,6 +53,10 @@ class StepByStepPage < ApplicationRecord
     update_attribute(:draft_updated_at, nil)
   end
 
+  def mark_as_approved_2i
+    update_attribute(:status, "approved_2i")
+  end
+
   def mark_as_published
     now = Time.zone.now
     update(
@@ -67,7 +75,7 @@ class StepByStepPage < ApplicationRecord
     update(
       published_at: nil,
       draft_updated_at: now,
-      status: "approved_2i"
+      status: "approved_2i",
     )
   end
 
@@ -118,6 +126,12 @@ class StepByStepPage < ApplicationRecord
 
   def steps_have_content?
     steps.any? && steps.map(&:contents).all?(&:present?)
+  end
+
+  def needs_2i_approval?
+    !approved_2i? &&
+      !status.published? &&
+      !scheduled_for_publishing?
   end
 
   # Create a deterministic, but unique token that will be used to give one-time

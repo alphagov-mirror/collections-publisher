@@ -291,6 +291,58 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe "#mark_as_approved_2i" do
+    it "changes the status to approved_2i" do
+      step_by_step_with_step = create(:step_by_step_page_with_steps)
+      expect(step_by_step_with_step.status).to eq "draft"
+
+      step_by_step_with_step.mark_as_approved_2i
+      expect(step_by_step_with_step.status).to eq "approved_2i"
+    end
+  end
+
+  describe "#approved_2i?" do
+    it "returns true if it has been 2i approved" do
+      step_by_step_with_step = create(:step_by_step_page_with_steps)
+      step_by_step_with_step.mark_as_approved_2i
+
+      expect(step_by_step_with_step.approved_2i?).to be true
+    end
+
+    it "returns false if it has not been 2i approved" do
+      step_by_step_with_step = create(:step_by_step_page_with_steps)
+
+      expect(step_by_step_with_step.approved_2i?).to be false
+    end
+  end
+
+  describe "#needs_2i_approval?" do
+    it "returns true if it has not been 2i approved" do
+      step_by_step_with_step = create(:step_by_step_page_with_steps)
+
+      expect(step_by_step_with_step.needs_2i_approval?).to be true
+    end
+
+    it "returns false if it has been 2i approved" do
+      step_by_step_with_step = create(:step_by_step_page_with_steps)
+      step_by_step_with_step.mark_as_approved_2i
+
+      expect(step_by_step_with_step.needs_2i_approval?).to be false
+    end
+
+    it "returns false if it is published" do
+      step_by_step_with_step = create(:published_step_by_step_page)
+
+      expect(step_by_step_with_step.needs_2i_approval?).to be false
+    end
+
+    it "returns false if it is scheduled" do
+      step_by_step_with_step = create(:scheduled_step_by_step_page)
+
+      expect(step_by_step_with_step.needs_2i_approval?).to be false
+    end
+  end
+
   describe "publishing" do
     let(:step_by_step_page) { create(:step_by_step_page) }
 
