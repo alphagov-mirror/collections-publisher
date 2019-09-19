@@ -34,37 +34,73 @@ RSpec.describe StepByStepPagesController do
   end
 
   describe "GET Step by step schedule page" do
-    it "can only be accessed by users with GDS editor permissions" do
-      get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+    context "GDS editor permissions" do
+      it "can only be accessed by users with GDS editor permissions" do
+        step_by_step_page.mark_as_approved_2i
+        get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+
+        expect(response.status).to eq(200)
+      end
+
+      it "can only be accessed if the step by step is 2i approved" do
+        step_by_step_page.mark_as_approved_2i
+        get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+
+        expect(response.status).to eq(200)
+      end
+
+      it "cannot be accessed if the step by step has not been 2i approved" do
+        get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+
+        expect(response.status).to eq(302)
+      end
+    end
+
+    context "no GDS editor permissions" do
+      it "cannot be accessed by users without GDS editor permissions" do
+        stub_user.permissions = %w(signin)
+        step_by_step_page.mark_as_approved_2i
+        get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+
+        expect(response.status).to eq(403)
+      end
+    end
+  end
+
+  describe "GET Step by step publish page" do
+    it "can only be accessed if the step by step is 2i approved" do
+      step_by_step_page.mark_as_approved_2i
+      get :publish, params: { step_by_step_page_id: step_by_step_page.id }
 
       expect(response.status).to eq(200)
     end
 
-    it "cannot be accessed by users without GDS editor permissions" do
-      stub_user.permissions = %w(signin)
-      get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+    it "cannot be accessed if the step by step has not been 2i approved" do
+      get :publish, params: { step_by_step_page_id: step_by_step_page.id }
 
-      expect(response.status).to eq(403)
+      expect(response.status).to eq(302)
     end
   end
 
   describe "#publish" do
     context "first publish" do
-      it "generates an internal change note stating that this is the first publication" do
-        stub_publishing_api
+        it "generates an internal change note stating that this is the first publication" do
+          stub_publishing_api
+          step_by_step_page.mark_as_approved_2i
 
-        post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
+          post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
 
-        expected_description = "First published by Name Surname"
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+          expected_description = "First published by Name Surname"
+          expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+        end
       end
-    end
 
     context "major updates" do
       let(:step_by_step_page) { create(:published_step_by_step_page) }
 
       it "generates an internal change note with change note text" do
         stub_publishing_api
+        step_by_step_page.mark_as_approved_2i
 
         change_note_text = "Testing major change note"
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "major", change_note: change_note_text }
@@ -79,6 +115,8 @@ RSpec.describe StepByStepPagesController do
 
       it "generates an internal change note without change note text" do
         stub_publishing_api
+        step_by_step_page.mark_as_approved_2i
+
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
 
         expected_description = "Published by Name Surname"
@@ -88,6 +126,7 @@ RSpec.describe StepByStepPagesController do
 
     it "sets the edition number of the change notes" do
       create(:internal_change_note, step_by_step_page_id: step_by_step_page.id)
+      step_by_step_page.mark_as_approved_2i
 
       stub_publishing_api
       post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
