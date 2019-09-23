@@ -96,6 +96,19 @@ RSpec.describe StepByStepPagesController do
     end
   end
 
+  describe "#unpublish" do
+    it "clears published status and sets it back to approved_2i" do
+      step_by_step_page = create(:published_step_by_step_page, slug: "how-to-unpublish")
+      stub_any_publishing_api_unpublish
+
+      expect(step_by_step_page.status).to eq "published"
+      post :unpublish, params: { step_by_step_page_id: step_by_step_page.id, redirect_url: "/redirect-to" }
+      step_by_step_page.reload
+
+      expect(step_by_step_page.status).to eq "approved_2i"
+    end
+  end
+
   describe "#schedule" do
     let(:step_by_step_page) { create(:draft_step_by_step_page) }
 

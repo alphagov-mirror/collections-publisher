@@ -63,10 +63,11 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_as_unpublished
+    now = Time.zone.now
     update(
       published_at: nil,
-      draft_updated_at: nil,
-      status: "draft",
+      draft_updated_at: now,
+      status: "approved_2i"
     )
   end
 
