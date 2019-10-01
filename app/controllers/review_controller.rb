@@ -32,7 +32,7 @@ class ReviewController < ApplicationController
     )
       generate_change_note("2i approved", params[:additional_comment])
 
-      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully 2i approved."
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully 2i approved. Please let the author know."
     else
       show_approve_2i_review_form
     end
@@ -65,7 +65,7 @@ class ReviewController < ApplicationController
     )
       generate_change_note("2i changes requested", params[:requested_change])
 
-      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested."
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested. Please let the author know."
     else
       show_request_change_2i_review_form
     end
