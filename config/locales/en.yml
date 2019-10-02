@@ -4,16 +4,13 @@ en:
       markdown_help:
         formatting_guidance: |
           Paragraphs are separated by empty lines.
-          Use non-bulleted lists for tasks. Add any costs after the link:
-
-           [task name](/link) £10 to £20
-           [task name](/link)
-
-          Only use bullets to show when a task has a number of options to choose from:
-            
-          - [download form option 1](/link)
-          - [download form option 2](/link)
-          - bullet with no links
+          Use non-bulleted lists for tasks. Add any costs after the link:  
+           \[task name\]\(/link\) £10 to £20
+           \[task name\]\(/link\)  
+          Only use bullets to show when a task has a number of options to choose from:  
+          \- \[download form option 1\]\(/link\)
+          \- \[download form option 2\]\(/link\)
+          \- bullet with no links
   step_by_step_pages:
     form:
       slug:

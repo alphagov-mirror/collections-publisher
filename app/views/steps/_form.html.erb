@@ -36,9 +36,9 @@
 
     <%= render "govuk_publishing_components/components/radio", {
       name: "step[optional]",
-      heading: t("steps.optional.heading"),
+      heading: markdown_to_html(t("steps.optional.heading")),
       heading_size: "s",
-      hint: t("steps.optional.hint"),
+      hint: markdown_to_html(t("steps.optional.hint")),
       items: [
         {
           value: "false",

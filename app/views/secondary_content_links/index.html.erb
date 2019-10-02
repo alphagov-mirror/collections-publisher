@@ -50,9 +50,9 @@
 
             <%= render "govuk_publishing_components/components/input", {
               label: {
-                text: t("secondary_content_links.index.base_path.label")
+                text: markdown_to_html(t("secondary_content_links.index.base_path.label"))
               },
-              hint: t("secondary_content_links.index.base_path.hint"),
+              hint: markdown_to_html(t("secondary_content_links.index.base_path.hint")),
               name: "base_path"
             } %>
           </div>
