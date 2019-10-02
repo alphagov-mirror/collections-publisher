@@ -20,4 +20,8 @@ module ApplicationHelper
   def published_url(slug)
     "#{Plek.new.website_root}/#{slug}"
   end
+
+  def markdown_to_html(markdown)
+    raw(Kramdown::Document.new(markdown).to_html)
+  end
 end

@@ -24,6 +24,15 @@ RSpec.describe ApplicationHelper do
     end
   end
 
+  describe "#markdown_to_html" do
+    it "converts markdown to html" do
+      text = "This is some **bold** text with a [link](/a-page)"
+      expected_html = "<p>This is some <strong>bold</strong> text with a <a href=\"/a-page\">link</a></p>\n"
+
+      expect(markdown_to_html(text)).to eq(expected_html)
+    end
+  end
+
   def expected_step_nav_preview_url
     "#{draft_origin_url}/#{step_nav.slug}"
   end
