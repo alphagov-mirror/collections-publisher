@@ -3,7 +3,7 @@ module StepByStepFilter
     def self.statuses(selected = nil)
       statuses = StepByStepPage::STATUSES.map do |status|
         {
-          text: status.humanize,
+          text: I18n.t!("step_by_step_page.statuses.#{status}"),
           value: status,
           data_attributes: {
             show: status,
