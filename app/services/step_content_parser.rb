@@ -58,7 +58,9 @@ private
   end
 
   def relative_paths(content)
-    all_links_in_content(content).select { |href| href.match(/^\/[a-z0-9]+.*/i) }
+    all_links_in_content(content)
+      .map { |url| strip_govuk_prefix(url) }
+      .select { |href| href.match(/^\/[a-z0-9]+.*/i) }
   end
 
   def external_links(content)
@@ -75,6 +77,10 @@ private
 
   def prefix_govuk(path_to_prefix)
     "https://www.gov.uk" + path_to_prefix
+  end
+
+  def strip_govuk_prefix(url)
+    url.sub(%r{^(https?://)?(www\.)?gov\.uk/}, "/")
   end
 
   def standard_list?(section)
