@@ -60,8 +60,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_I_am_the_reviewer
       when_I_visit_the_step_by_step_page
       then_the_primary_action_should_be "Approve"
-      and_the_secondary_action_should_be "Request changes"
-      and_the_secondary_action_should_be "Preview"
+      and_the_secondary_actions_should_be ["Request changes", "Preview"]
       and_there_should_be_tertiary_actions_to %w(Delete)
     end
   end
@@ -76,8 +75,19 @@ RSpec.feature "Contextual action buttons for step by step pages" do
   end
 
   def and_the_secondary_action_should_be(action_text)
-    custom_error = "Couldn't find '#{action_text}' as a secondary action in: \n #{action_html}"
-    expect(page).to have_css(".app-side__actions .gem-c-button--secondary", text: action_text), custom_error
+    expect(page).to have_css(secondary_action_selector, count: 1)
+    assert_secondary_action_exists(action_text)
+  end
+
+  def and_the_secondary_actions_should_be(actions)
+    expect(page).to have_css(secondary_action_selector, count: actions.count)
+    actions.each do |action_text|
+      assert_secondary_action_exists(action_text)
+    end
+  end
+
+  def assert_secondary_action_exists(action_text)
+    expect(page).to have_css(secondary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a secondary action in: \n #{action_html}"
   end
 
   def and_there_should_be_tertiary_actions_to(actions_text)
@@ -89,6 +99,10 @@ RSpec.feature "Contextual action buttons for step by step pages" do
 
   def primary_action_selector
     ".app-side__actions .gem-c-button:not(.gem-c-button--secondary)"
+  end
+
+  def secondary_action_selector
+    ".app-side__actions .gem-c-button--secondary"
   end
 
   def action_html
