@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_080905) do
     t.bigint "step_by_step_page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["position"], name: "index_steps_on_position"
     t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
   end
 
