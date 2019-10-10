@@ -40,6 +40,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       then_the_primary_action_should_be "Claim for 2i review"
       and_the_secondary_action_should_be "Preview"
       and_there_should_be_tertiary_actions_to %w(Delete)
+      and_there_should_be_a_guidance_link
     end
   end
 
@@ -63,6 +64,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_the_secondary_action_should_be "Request changes"
       and_the_secondary_action_should_be "Preview"
       and_there_should_be_tertiary_actions_to %w(Delete)
+      and_there_should_be_a_guidance_link
     end
   end
 
@@ -89,5 +91,9 @@ RSpec.feature "Contextual action buttons for step by step pages" do
 
   def action_html
     find(".app-side__actions").native.inner_html.strip
+  end
+
+  def and_there_should_be_a_guidance_link
+    expect(page).to have_link("Guidance")
   end
 end

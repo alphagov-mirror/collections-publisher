@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     get :unpublish
     post :unpublish
     post :unschedule
+    get :guidance
 
     resources :secondary_content_links, path: "secondary-content-links"
     resources :steps
