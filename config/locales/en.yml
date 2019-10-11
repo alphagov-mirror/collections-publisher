@@ -69,6 +69,10 @@ en:
       title: Notify users about this change?
       label: Public change note
       hint: Describe the change for users. This change note will be emailed to subscribers.
+    submit_for_2i:
+      label: Additional comments (optional)
+      title: Submit for 2i
+      guidance: "Add a summary of your changes and why. For example: what’s been added, removed or replaced. Provide any context that helps understand what you’ve done. For example: a link to zendesk and trello ticket if there’s one."
     schedule_datetime:
       date:
         label: Date
