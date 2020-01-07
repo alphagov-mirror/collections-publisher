@@ -14,7 +14,7 @@ module StatusHelper
     labels << draft_tag if tag.draft?
     labels << dirty_tag if tag.dirty?
     labels << archived_tag if tag.archived?
-    raw labels.join(" ")
+    raw labels.join(" ") # rubocop:disable Rails/OutputSafety
   end
 
   def dirty_tag

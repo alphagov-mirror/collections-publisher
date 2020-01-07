@@ -33,7 +33,7 @@ module HeaderHelper
     if object.is_a?(ActiveRecord::Base)
       link_to object.title, object
     elsif object.to_s.starts_with?("<a href")
-      raw object
+      raw object # rubocop:disable Rails/OutputSafety
     else
       link_to object.to_s.humanize, object.to_sym
     end

@@ -29,7 +29,7 @@ module ApplicationHelper
   end
 
   def markdown_to_html(markdown)
-    raw(Kramdown::Document.new(markdown).to_html)
+    raw(Kramdown::Document.new(markdown).to_html) # rubocop:disable Rails/OutputSafety
   end
 
   def render_markdown(content)
