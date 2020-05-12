@@ -9,8 +9,8 @@ RSpec.describe "Markdown editor", type: :view do
 
   it "renders a textarea with a label and toolbar" do
     render "components/markdown_editor",  label: {
-                                            text: "Body",
-                                          },
+      text: "Body",
+    },
                                           textarea: {
                                             name: "markdown-editor",
                                             id: "markdown-editor",
