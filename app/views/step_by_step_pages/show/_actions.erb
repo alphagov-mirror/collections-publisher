@@ -32,6 +32,12 @@
         class: %w(govuk-link govuk-link--no-visited-state app-link--right)
       %>
     <% elsif @step_by_step_page.has_draft? %>
+      <% if can_skip_2i_review?(current_user) %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Publish without 2i Review",
+          href: step_by_step_page_publish_path(@step_by_step_page)
+        } %>%>
+      <% end %>
       <% if can_review?(@step_by_step_page, current_user) %>
         <%= form_for(@step_by_step_page, url: step_by_step_page_claim_2i_review_path(@step_by_step_page), method: :post) do %>
           <%= render "govuk_publishing_components/components/button", {
