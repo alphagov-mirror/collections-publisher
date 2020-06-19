@@ -59,7 +59,8 @@
         <%= render "govuk_publishing_components/components/button", {
           text: "Publish without 2i review",
           href: step_by_step_page_publish_without_2i_review_path(@step_by_step_page),
-          destructive: true
+          destructive: true,
+          data_attributes: { confirm: "You should only publish step by step pages without 2i review when no other editor is available to review and publish your work, for example out of hours or in an emergency." },
         } %>
       <% end %>
     <% end %>
