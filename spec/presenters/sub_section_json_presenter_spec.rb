@@ -167,6 +167,26 @@ RSpec.describe SubSectionJsonPresenter do
         expect { hash }.to change { subject.errors.length }.by(1)
       end
     end
+
+    context "description present and link is to a subtopic path" do
+      let(:business) { create :coronavirus_page, :business }
+      let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
+      let(:description) { "Find out about the government response to coronavirus (COVID-19) and what you need to do." }
+      let(:path) { business.base_path }
+
+      before do
+        stub_request(:get, business.raw_content_url)
+          .to_return(body: File.read(fixture_path))
+      end
+
+      it "flags featured link" do
+        expect(hash[:list].first[:featured_link]).to eq(true)
+      end
+
+      it "includes description" do
+        expect(hash[:list].first[:description]).to eq(description)
+      end
+    end
   end
 
   describe "#content_groups" do
