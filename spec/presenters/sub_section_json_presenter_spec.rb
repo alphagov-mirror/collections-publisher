@@ -187,6 +187,15 @@ RSpec.describe SubSectionJsonPresenter do
         expect(sub_section_hash[:list].first[:description]).to eq(description)
       end
     end
+
+    context "when link is to a featured link" do
+      let(:url) { "/testing-for-coronavirus" }
+      let(:link) { "[#{label}](#{url})" }
+
+      it "flags featured link" do
+        expect(sub_section_hash[:list].first[:featured_link]).to eq(true)
+      end
+    end
   end
 
   describe "#content_groups" do

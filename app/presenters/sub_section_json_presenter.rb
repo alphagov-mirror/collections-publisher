@@ -102,6 +102,9 @@ class SubSectionJsonPresenter
     if subtopic_paths.keys.include?(link[:url])
       link[:description] = description_from_raw_content(link[:url])
       link[:featured_link] = true
+    elsif featured_links.pluck(:url).include?(link[:url])
+      link[:description] = featured_link_description(link[:url])
+      link[:featured_link] = true
     end
     link
   end
@@ -112,7 +115,16 @@ class SubSectionJsonPresenter
     raw_content.dig("content", "meta_description")
   end
 
+  def featured_link_description(url)
+    featured_link = featured_links.select { |link| link[:url] == url }.first
+    featured_link[:description]
+  end
+
   def subtopic_paths
     @subtopic_paths ||= CoronavirusPage.subtopic_pages.pluck(:base_path, :raw_content_url).to_h
+  end
+
+  def featured_links
+    @featured_links ||= YAML.load_file(Rails.root.join("lib/data/featured_links.yml")).each(&:deep_symbolize_keys!)
   end
 end
