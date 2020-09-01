@@ -12,6 +12,7 @@ class CoronavirusPages::ContentBuilder
       data = github_data
       data["sections"] = sub_sections_data
       add_live_stream(data)
+      data["hidden_search_terms"] = hidden_search_terms
       data
     end
   rescue RestClient::Exception => e
@@ -95,6 +96,24 @@ class CoronavirusPages::ContentBuilder
   def add_live_stream(data)
     if coronavirus_page.slug == "landing"
       data["live_stream"] = github_live_stream_data.merge(persisted_live_stream_data)
+    end
+  end
+
+  def hidden_search_terms
+    sections = sub_sections_data.map do |section|
+      [section[:title], subsections(section[:sub_sections])]
+    end
+
+    sections.flatten.compact
+  end
+
+  def subsections(items)
+    items.map do |subsection|
+      labels = subsection[:list]&.map do |list_item|
+        list_item[:label]
+      end
+
+      [subsection[:title], labels]
     end
   end
 end
