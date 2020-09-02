@@ -10,9 +10,9 @@ module CoronavirusPages
           {
             name: "Coronavirus landing page",
             content_id: "774cee22-d896-44c1-a611-e3109cce8eae".freeze,
-            raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/c6e6c5aba7cfd14a4753f7cc356d68b00e6c69a3/content/coronavirus_landing_page.yml".freeze,
+            raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/50a8c4a1265b918e86e3be44d538670237366b53/content/coronavirus_landing_page.yml".freeze,
             base_path: "/coronavirus",
-            github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/c6e6c5aba7cfd14a4753f7cc356d68b00e6c69a3/content/coronavirus_landing_page.yml",
+            github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/50a8c4a1265b918e86e3be44d538670237366b53/content/coronavirus_landing_page.yml",
             state: "published",
           },
         business:
