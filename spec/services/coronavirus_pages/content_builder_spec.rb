@@ -29,19 +29,21 @@ RSpec.describe CoronavirusPages::ContentBuilder do
       )
     end
 
+    let(:data) { github_content["content"] }
+
     let(:hidden_search_terms) do
       [
         sub_section_json[:title],
         sub_section_json[:sub_sections].first[:list].first[:label],
+        MarkdownService.new.strip_markdown(data["timeline"]["list"].first["paragraph"]),
+        MarkdownService.new.strip_markdown(data["timeline"]["list"].last["paragraph"]),
       ]
     end
 
-    let(:data) do
-      data = github_content["content"]
+    before do
       data["sections"] = [sub_section_json]
       data["live_stream"] = live_stream_data
       data["hidden_search_terms"] = hidden_search_terms
-      data
     end
 
     it "returns github and model data" do
