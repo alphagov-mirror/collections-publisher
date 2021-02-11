@@ -450,12 +450,12 @@ module CoronavirusFeatureSteps
   end
 
   def i_see_subsection_one_in_position_one
-    element = find("#step-0")
+    element = find(".app-c-reorderable-list__item:first-child")
     expect(element).to have_content "I am first"
   end
 
   def and_i_move_section_one_down
-    within("#step-0") { click_button "Down" }
+    within(".app-c-reorderable-list__item:first-child") { click_button "Down" }
     click_button "Save"
     expect(page).to have_content "Sections were successfully reordered."
   end

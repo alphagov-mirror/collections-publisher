@@ -35,10 +35,10 @@ module Coronavirus
     end
 
     def set_positions
-      reordered_subsections = JSON.parse(params[:section_order_save])
-      reordered_subsections.each do |sub_section_data|
-        sub_section = page.sub_sections.find(sub_section_data["id"])
-        sub_section.update_column(:position, sub_section_data["position"])
+      reordered_subsections = params[:section_order_save]
+      reordered_subsections.each do |id, position|
+        sub_section = page.sub_sections.find(id)
+        sub_section.update_column(:position, position)
       end
     end
 

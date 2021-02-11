@@ -23,9 +23,7 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
 
     let(:sub_section_0) { create :coronavirus_sub_section, position: 0, page: page }
     let(:sub_section_1) { create :coronavirus_sub_section, position: 1, page: page }
-    let(:sub_section_0_params) { { id: sub_section_0.id, position: 1 } }
-    let(:sub_section_1_params) { { id: sub_section_1.id, position: 0 } }
-    let(:section_params) { [sub_section_0_params, sub_section_1_params].to_json }
+    let(:section_params) { { "#{sub_section_0.id}": 1, "#{sub_section_1.id}": 0 } }
 
     subject { put :update, params: { page_slug: slug, section_order_save: section_params } }
 
@@ -40,8 +38,7 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
     end
 
     context "when the submitted positions match the existing" do
-      let(:sub_section_0_params) { { id: sub_section_0.id, position: 0 } }
-      let(:sub_section_1_params) { { id: sub_section_1.id, position: 1 } }
+      let(:section_params) { { "#{sub_section_0.id}": 0, "#{sub_section_1.id}": 1 } }
 
       it "keeps the section order" do
         subject
