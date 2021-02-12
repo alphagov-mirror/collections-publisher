@@ -30,20 +30,14 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
     end
 
     it "reorders the announcements" do
-      announcement_params = [
-        {
-          id: announcement.id,
-          position: 1,
-        },
-        {
-          id: another_announcement.id,
-          position: 0,
-        },
-      ]
+      announcement_params = {
+        "#{announcement.id}": 1,
+        "#{another_announcement.id}": 0,
+      }
 
       put :update, params: {
         page_slug: page.slug,
-        announcement_order_save: announcement_params.to_json,
+        announcement_order_save: announcement_params,
       }
 
       expect(announcement.reload.position).to eq 1
@@ -52,20 +46,14 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
     end
 
     it "keeps the existing order if submitted without changes" do
-      announcement_params = [
-        {
-          id: announcement.id,
-          position: 0,
-        },
-        {
-          id: another_announcement.id,
-          position: 1,
-        },
-      ]
+      announcement_params = {
+        "#{announcement.id}": 0,
+        "#{another_announcement.id}": 1,
+      }
 
       put :update, params: {
         page_slug: page.slug,
-        announcement_order_save: announcement_params.to_json,
+        announcement_order_save: announcement_params,
       }
 
       expect(announcement.reload.position).to eq 0
@@ -76,20 +64,14 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
     it "keeps the existing order if updating the draft fails" do
       stub_publishing_api_isnt_available
 
-      announcement_params = [
-        {
-          id: announcement.id,
-          position: 2,
-        },
-        {
-          id: another_announcement.id,
-          position: 1,
-        },
-      ]
+      announcement_params = {
+        "#{announcement.id}": 2,
+        "#{another_announcement.id}": 1,
+      }
 
       put :update, params: {
         page_slug: page.slug,
-        announcement_order_save: announcement_params.to_json,
+        announcement_order_save: announcement_params,
       }
 
       expect(announcement.reload.position).to eq 1

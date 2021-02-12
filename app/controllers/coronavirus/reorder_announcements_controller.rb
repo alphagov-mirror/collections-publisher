@@ -9,12 +9,12 @@ module Coronavirus
 
     def update
       success = true
-      reordered_announcements = JSON.parse(params[:announcement_order_save])
+      reordered_announcements = params[:announcement_order_save]
 
       Announcement.transaction do
-        reordered_announcements.each do |announcement_data|
-          announcement = page.announcements.find(announcement_data["id"])
-          announcement.update_column(:position, announcement_data["position"])
+        reordered_announcements.each do |id, position|
+          announcement = page.announcements.find(id)
+          announcement.update_column(:position, position)
         end
 
         unless draft_updater.send
