@@ -9,12 +9,12 @@ module Coronavirus
 
     def update
       success = true
-      reordered_timeline_entries = JSON.parse(params[:timeline_entry_order_save])
+      reordered_timeline_entries = params[:timeline_entry_order_save]
 
       TimelineEntry.transaction do
-        reordered_timeline_entries.each do |timeline_entry_data|
-          timeline_entry = page.timeline_entries.find(timeline_entry_data["id"])
-          timeline_entry.update_column(:position, timeline_entry_data["position"])
+        reordered_timeline_entries.each do |id, position|
+          timeline_entry = page.timeline_entries.find(id)
+          timeline_entry.update_column(:position, position)
         end
 
         unless draft_updater.send
