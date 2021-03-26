@@ -19,7 +19,7 @@ class Coronavirus::SubSectionJsonPresenter
   end
 
   def sub_sections
-    sub_section.structured_content.items.each_with_object([]) do |item, memo|
+    sub_sections = sub_section.structured_content.items.each_with_object([]) do |item, memo|
       case item
       when Coronavirus::SubSection::StructuredContent::Link
         if memo.empty?
@@ -31,6 +31,24 @@ class Coronavirus::SubSectionJsonPresenter
         memo << { title: item.text, list: [] }
       end
     end
+    sub_sections.unshift(build_action_link) if sub_section.action_link_present?
+    sub_sections
+  end
+
+  def build_action_link
+    return if sub_section.action_link_blank?
+
+    {
+      list: [
+        {
+          url: sub_section.action_link_url,
+          label: sub_section.action_link_content,
+          description: sub_section.action_link_summary,
+          featured_link: true,
+        },
+      ],
+      title: nil,
+    }
   end
 
   def build_link(label, url)
