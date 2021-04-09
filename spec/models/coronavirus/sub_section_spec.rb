@@ -60,6 +60,26 @@ RSpec.describe Coronavirus::SubSection do
         expect(sub_section.errors).to have_key(:action_link_content)
         expect(sub_section.errors).to have_key(:action_link_summary)
       end
+
+      it "validates if under 255 characters long" do
+        string = Faker::Lorem.characters(number: 255)
+
+        sub_section.action_link_url = "/#{Faker::Lorem.characters(number: 254)}"
+        sub_section.action_link_content = string
+        sub_section.action_link_summary = string
+
+        expect(sub_section).to be_valid
+      end
+
+      it "fails if over 255 characters long" do
+        string = Faker::Lorem.characters(number: 256)
+
+        sub_section.action_link_url = "/#{Faker::Lorem.characters(number: 255)}"
+        sub_section.action_link_content = string
+        sub_section.action_link_summary = string
+
+        expect(sub_section).not_to be_valid
+      end
     end
   end
 
